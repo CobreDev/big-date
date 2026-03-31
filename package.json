@@ -1,0 +1,43 @@
+{
+  "name": "big-date",
+  "author": "cobre",
+  "version": "1.1.0",
+  "keywords": [
+    "big date",
+    "large date",
+    "date"
+  ],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "big-date",
+    "uuid": "734ce8b1-061c-4f52-9182-fb6448a48896",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite",
+      "emery",
+      "flint",
+      "gabbro"
+    ],
+    "watchapp": {
+      "watchface": false
+    },
+    "messageKeys": [
+      "dummy"
+    ],
+    "resources": {
+      "media": [
+        {
+          "type": "png",
+          "name": "IMAGE_MENU_ICON",
+          "file": "images/menu-icon.png",
+          "menuIcon": true
+        }
+      ]
+    }
+  }
+}
