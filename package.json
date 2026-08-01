@@ -1,7 +1,7 @@
 {
   "name": "big-date",
   "author": "cobre",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "keywords": [
     "big date",
     "large date",
@@ -9,6 +9,7 @@
   ],
   "private": true,
   "dependencies": {
+    "@rebble/clay": "^1.0.10",
     "pebble-fctx": "^1.6.5"
   },
   "pebble": {
@@ -29,7 +30,7 @@
       "watchface": false
     },
     "messageKeys": [
-      "dummy"
+      "QuitTimeout"
     ],
     "resources": {
       "media": [

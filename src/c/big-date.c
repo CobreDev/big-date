@@ -2,8 +2,18 @@
 #include <pebble-fctx/fctx.h>
 #include <pebble-fctx/ffont.h>
 
-#define SCREENSHOT_MODE 1
+#define SCREENSHOT_MODE 0
 #define GAP 4
+
+#define SETTINGS_PERSIST_KEY 1
+
+typedef struct {
+    int quit_timeout; // seconds until auto-quit; 0 = never
+} Settings;
+
+static Settings s_settings;
+static AppTimer *s_quit_timer;
+static bool s_quick_launched; // true if the app was opened via quick launch
 
 static Window *s_main_window;
 static Layer *s_canvas_layer;
@@ -74,6 +84,41 @@ static void canvas_update_proc(Layer *layer, GContext *ctx) {
     fctx_end_fill(&fctx);
 
     fctx_deinit_context(&fctx);
+}
+
+static void quit_timer_callback(void *data) {
+    s_quit_timer = NULL;
+    window_stack_pop_all(false);
+}
+
+static void schedule_quit() {
+    if (s_quit_timer) {
+        app_timer_cancel(s_quit_timer);
+        s_quit_timer = NULL;
+    }
+    // Only auto-quit when the app was opened via quick launch.
+    if (s_quick_launched && s_settings.quit_timeout > 0) {
+        s_quit_timer = app_timer_register(s_settings.quit_timeout * 1000, quit_timer_callback, NULL);
+    }
+}
+
+static void load_settings() {
+    if (persist_exists(SETTINGS_PERSIST_KEY)) {
+        persist_read_data(SETTINGS_PERSIST_KEY, &s_settings, sizeof(s_settings));
+    }
+}
+
+static void inbox_received_handler(DictionaryIterator *iter, void *context) {
+    Tuple *quit_tuple = dict_find(iter, MESSAGE_KEY_QuitTimeout);
+    if (quit_tuple) {
+        if (quit_tuple->type == TUPLE_CSTRING) {
+            s_settings.quit_timeout = atoi(quit_tuple->value->cstring);
+        } else {
+            s_settings.quit_timeout = quit_tuple->value->int32;
+        }
+        persist_write_data(SETTINGS_PERSIST_KEY, &s_settings, sizeof(s_settings));
+        schedule_quit();
+    }
 }
 
 static void main_window_load(Window *window) {
@@ -150,9 +195,22 @@ static void init() {
     window_stack_push(s_main_window, true);
 
     tick_timer_service_subscribe(DAY_UNIT, tick_handler);
+
+    s_quick_launched = (launch_reason() == APP_LAUNCH_QUICK_LAUNCH);
+
+    load_settings();
+
+    app_message_register_inbox_received(inbox_received_handler);
+    app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+
+    schedule_quit();
 }
 
 static void deinit() {
+    if (s_quit_timer) {
+        app_timer_cancel(s_quit_timer);
+        s_quit_timer = NULL;
+    }
     window_destroy(s_main_window);
     ffont_destroy(s_font_regular);
     ffont_destroy(s_font_leco);
