@@ -13,7 +13,7 @@
     "pebble-fctx": "^1.6.5"
   },
   "pebble": {
-    "displayName": "big-date",
+    "displayName": "Big Date",
     "uuid": "734ce8b1-061c-4f52-9182-fb6448a48896",
     "sdkVersion": "3",
     "enableMultiJS": true,
