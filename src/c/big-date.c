@@ -110,15 +110,40 @@ static void load_settings() {
 
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
     Tuple *quit_tuple = dict_find(iter, MESSAGE_KEY_QuitTimeout);
-    if (quit_tuple) {
-        if (quit_tuple->type == TUPLE_CSTRING) {
-            s_settings.quit_timeout = atoi(quit_tuple->value->cstring);
-        } else {
-            s_settings.quit_timeout = quit_tuple->value->int32;
-        }
-        persist_write_data(SETTINGS_PERSIST_KEY, &s_settings, sizeof(s_settings));
-        schedule_quit();
+    if (!quit_tuple) {
+        return;
     }
+
+    // Clay sends the select's value; our options use string values, but read
+    // defensively so a numeric value of any width is also handled correctly.
+    switch (quit_tuple->type) {
+        case TUPLE_CSTRING:
+            s_settings.quit_timeout = atoi(quit_tuple->value->cstring);
+            break;
+        case TUPLE_INT:
+            if (quit_tuple->length == 1) {
+                s_settings.quit_timeout = quit_tuple->value->int8;
+            } else if (quit_tuple->length == 2) {
+                s_settings.quit_timeout = quit_tuple->value->int16;
+            } else {
+                s_settings.quit_timeout = quit_tuple->value->int32;
+            }
+            break;
+        case TUPLE_UINT:
+            if (quit_tuple->length == 1) {
+                s_settings.quit_timeout = quit_tuple->value->uint8;
+            } else if (quit_tuple->length == 2) {
+                s_settings.quit_timeout = quit_tuple->value->uint16;
+            } else {
+                s_settings.quit_timeout = quit_tuple->value->uint32;
+            }
+            break;
+        default:
+            return; // unexpected type; leave the current setting untouched
+    }
+
+    persist_write_data(SETTINGS_PERSIST_KEY, &s_settings, sizeof(s_settings));
+    schedule_quit();
 }
 
 static void main_window_load(Window *window) {
@@ -134,8 +159,85 @@ static void main_window_load(Window *window) {
     update_date();
 }
 
+// AppGlance is available on every target platform except aplite.
+#ifndef PBL_PLATFORM_APLITE
+static void glance_reload_callback(AppGlanceReloadSession *session, size_t limit, void *context) {
+    if (limit < 1) {
+        return;
+    }
+
+    // Custom icon for each day of the month (1..31).
+    static const uint32_t date_icons[31] = {
+        PUBLISHED_ID_DATE_01, PUBLISHED_ID_DATE_02, PUBLISHED_ID_DATE_03, PUBLISHED_ID_DATE_04,
+        PUBLISHED_ID_DATE_05, PUBLISHED_ID_DATE_06, PUBLISHED_ID_DATE_07, PUBLISHED_ID_DATE_08,
+        PUBLISHED_ID_DATE_09, PUBLISHED_ID_DATE_10, PUBLISHED_ID_DATE_11, PUBLISHED_ID_DATE_12,
+        PUBLISHED_ID_DATE_13, PUBLISHED_ID_DATE_14, PUBLISHED_ID_DATE_15, PUBLISHED_ID_DATE_16,
+        PUBLISHED_ID_DATE_17, PUBLISHED_ID_DATE_18, PUBLISHED_ID_DATE_19, PUBLISHED_ID_DATE_20,
+        PUBLISHED_ID_DATE_21, PUBLISHED_ID_DATE_22, PUBLISHED_ID_DATE_23, PUBLISHED_ID_DATE_24,
+        PUBLISHED_ID_DATE_25, PUBLISHED_ID_DATE_26, PUBLISHED_ID_DATE_27, PUBLISHED_ID_DATE_28,
+        PUBLISHED_ID_DATE_29, PUBLISHED_ID_DATE_30, PUBLISHED_ID_DATE_31,
+    };
+
+    // Larger-display platforms have room for the full month name; the smaller
+    // ones (basalt/chalk/diorite) use the abbreviated month. (aplite has no
+    // AppGlance and is excluded above.)
+#if defined(PBL_PLATFORM_BASALT) || defined(PBL_PLATFORM_CHALK) || defined(PBL_PLATFORM_DIORITE)
+    const char *format = "%A, %b %d";
+#else
+    const char *format = "%A, %B %d";
+#endif
+
+    // Start of the current local day (midnight).
+    time_t now = time(NULL);
+    struct tm midnight = *localtime(&now);
+    midnight.tm_hour = 0;
+    midnight.tm_min = 0;
+    midnight.tm_sec = 0;
+    time_t start_of_today = mktime(&midnight);
+
+    // Queue one slice per upcoming day, each expiring at the following midnight,
+    // so the glance advances by itself (no app launch needed) for as many days
+    // as the system allows (`limit`). The calendar day is derived from the real
+    // date each iteration, so month lengths, February, and leap years are all
+    // handled automatically. 24h steps mean the expiry can drift by an hour
+    // across a DST change, which is harmless for a date display.
+    int added = 0;
+    for (size_t i = 0; i < limit && i < 31; i++) {
+        time_t day_noon = start_of_today + (time_t)i * 86400 + 43200; // midday: DST-safe
+        struct tm day_tm = *localtime(&day_noon);
+
+        char subtitle[32];
+        strftime(subtitle, sizeof(subtitle), format, &day_tm);
+
+        uint32_t icon = APP_GLANCE_SLICE_DEFAULT_ICON;
+        int mday = day_tm.tm_mday;
+        if (mday >= 1 && mday <= 31) {
+            icon = date_icons[mday - 1];
+        }
+
+        AppGlanceSlice slice = {
+            .layout = {
+                .icon = icon,
+                .subtitle_template_string = subtitle,
+            },
+            .expiration_time = start_of_today + (time_t)(i + 1) * 86400,
+        };
+        if (app_glance_add_slice(session, slice) != APP_GLANCE_RESULT_SUCCESS) {
+            break;
+        }
+        added++;
+    }
+    APP_LOG(APP_LOG_LEVEL_INFO, "AppGlance: queued %d day(s), limit=%d", added, (int)limit);
+}
+#endif
+
 static void main_window_unload(Window *window) {
     layer_destroy(s_canvas_layer);
+
+#ifndef PBL_PLATFORM_APLITE
+    // Update the app's glance in the launcher so it shows the current date.
+    app_glance_reload(glance_reload_callback, NULL);
+#endif
 }
 
 static void init() {

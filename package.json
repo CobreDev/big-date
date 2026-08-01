@@ -49,6 +49,318 @@
           "type": "raw",
           "name": "FONT_LECO",
           "file": "LECO1976-Regular.ffont"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_01",
+          "file": "images/date-icons/date_01.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_02",
+          "file": "images/date-icons/date_02.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_03",
+          "file": "images/date-icons/date_03.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_04",
+          "file": "images/date-icons/date_04.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_05",
+          "file": "images/date-icons/date_05.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_06",
+          "file": "images/date-icons/date_06.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_07",
+          "file": "images/date-icons/date_07.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_08",
+          "file": "images/date-icons/date_08.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_09",
+          "file": "images/date-icons/date_09.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_10",
+          "file": "images/date-icons/date_10.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_11",
+          "file": "images/date-icons/date_11.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_12",
+          "file": "images/date-icons/date_12.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_13",
+          "file": "images/date-icons/date_13.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_14",
+          "file": "images/date-icons/date_14.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_15",
+          "file": "images/date-icons/date_15.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_16",
+          "file": "images/date-icons/date_16.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_17",
+          "file": "images/date-icons/date_17.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_18",
+          "file": "images/date-icons/date_18.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_19",
+          "file": "images/date-icons/date_19.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_20",
+          "file": "images/date-icons/date_20.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_21",
+          "file": "images/date-icons/date_21.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_22",
+          "file": "images/date-icons/date_22.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_23",
+          "file": "images/date-icons/date_23.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_24",
+          "file": "images/date-icons/date_24.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_25",
+          "file": "images/date-icons/date_25.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_26",
+          "file": "images/date-icons/date_26.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_27",
+          "file": "images/date-icons/date_27.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_28",
+          "file": "images/date-icons/date_28.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_29",
+          "file": "images/date-icons/date_29.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_30",
+          "file": "images/date-icons/date_30.png"
+        },
+        {
+          "type": "bitmap",
+          "name": "IMAGE_DATE_31",
+          "file": "images/date-icons/date_31.png"
+        }
+      ],
+      "publishedMedia": [
+        {
+          "name": "DATE_01",
+          "id": 1,
+          "glance": "IMAGE_DATE_01"
+        },
+        {
+          "name": "DATE_02",
+          "id": 2,
+          "glance": "IMAGE_DATE_02"
+        },
+        {
+          "name": "DATE_03",
+          "id": 3,
+          "glance": "IMAGE_DATE_03"
+        },
+        {
+          "name": "DATE_04",
+          "id": 4,
+          "glance": "IMAGE_DATE_04"
+        },
+        {
+          "name": "DATE_05",
+          "id": 5,
+          "glance": "IMAGE_DATE_05"
+        },
+        {
+          "name": "DATE_06",
+          "id": 6,
+          "glance": "IMAGE_DATE_06"
+        },
+        {
+          "name": "DATE_07",
+          "id": 7,
+          "glance": "IMAGE_DATE_07"
+        },
+        {
+          "name": "DATE_08",
+          "id": 8,
+          "glance": "IMAGE_DATE_08"
+        },
+        {
+          "name": "DATE_09",
+          "id": 9,
+          "glance": "IMAGE_DATE_09"
+        },
+        {
+          "name": "DATE_10",
+          "id": 10,
+          "glance": "IMAGE_DATE_10"
+        },
+        {
+          "name": "DATE_11",
+          "id": 11,
+          "glance": "IMAGE_DATE_11"
+        },
+        {
+          "name": "DATE_12",
+          "id": 12,
+          "glance": "IMAGE_DATE_12"
+        },
+        {
+          "name": "DATE_13",
+          "id": 13,
+          "glance": "IMAGE_DATE_13"
+        },
+        {
+          "name": "DATE_14",
+          "id": 14,
+          "glance": "IMAGE_DATE_14"
+        },
+        {
+          "name": "DATE_15",
+          "id": 15,
+          "glance": "IMAGE_DATE_15"
+        },
+        {
+          "name": "DATE_16",
+          "id": 16,
+          "glance": "IMAGE_DATE_16"
+        },
+        {
+          "name": "DATE_17",
+          "id": 17,
+          "glance": "IMAGE_DATE_17"
+        },
+        {
+          "name": "DATE_18",
+          "id": 18,
+          "glance": "IMAGE_DATE_18"
+        },
+        {
+          "name": "DATE_19",
+          "id": 19,
+          "glance": "IMAGE_DATE_19"
+        },
+        {
+          "name": "DATE_20",
+          "id": 20,
+          "glance": "IMAGE_DATE_20"
+        },
+        {
+          "name": "DATE_21",
+          "id": 21,
+          "glance": "IMAGE_DATE_21"
+        },
+        {
+          "name": "DATE_22",
+          "id": 22,
+          "glance": "IMAGE_DATE_22"
+        },
+        {
+          "name": "DATE_23",
+          "id": 23,
+          "glance": "IMAGE_DATE_23"
+        },
+        {
+          "name": "DATE_24",
+          "id": 24,
+          "glance": "IMAGE_DATE_24"
+        },
+        {
+          "name": "DATE_25",
+          "id": 25,
+          "glance": "IMAGE_DATE_25"
+        },
+        {
+          "name": "DATE_26",
+          "id": 26,
+          "glance": "IMAGE_DATE_26"
+        },
+        {
+          "name": "DATE_27",
+          "id": 27,
+          "glance": "IMAGE_DATE_27"
+        },
+        {
+          "name": "DATE_28",
+          "id": 28,
+          "glance": "IMAGE_DATE_28"
+        },
+        {
+          "name": "DATE_29",
+          "id": 29,
+          "glance": "IMAGE_DATE_29"
+        },
+        {
+          "name": "DATE_30",
+          "id": 30,
+          "glance": "IMAGE_DATE_30"
+        },
+        {
+          "name": "DATE_31",
+          "id": 31,
+          "glance": "IMAGE_DATE_31"
         }
       ]
     }
