@@ -22,11 +22,10 @@ module.exports = [
         "description": "When the app is opened via quick launch, automatically close it and return to the watchface after this amount of time. Has no effect when opened from the launcher menu.",
         "options": [
           { "label": "Never", "value": "0" },
+          { "label": "3 seconds", "value": "3" },
           { "label": "5 seconds", "value": "5" },
-          { "label": "10 seconds", "value": "10" },
-          { "label": "15 seconds", "value": "15" },
-          { "label": "30 seconds", "value": "30" },
-          { "label": "60 seconds", "value": "60" }
+          { "label": "8 seconds", "value": "8" },
+          { "label": "15 seconds", "value": "15" }
         ]
       }
     ]
